@@ -22,11 +22,11 @@ function useFirestore() {
   };
 
   const updateItem = async checked => {
-    const newItem = { ...checked, done: !checked.done };
-    await updateFirebaseItem(newItem, checked.id);
+    const changes = { done: !checked.done };
+    await updateFirebaseItem(changes, checked.id);
     const newItems = items.map((item) => {
       if (item.id === checked.id) {
-        item.done = !checked.done;
+        item = { ...item, changes}
       }
       return item;
     })
@@ -43,4 +43,4 @@ function useFirestore() {
   return [items, addItem, updateItem, clearItems];
 }
 
-export default useFirestore;  
+export default useFirestore; 
